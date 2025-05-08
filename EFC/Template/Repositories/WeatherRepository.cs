@@ -40,7 +40,7 @@ public class WeatherRepository(WeatherTemplateDbContext context) : IWeatherRepos
             if (ex.InnerException is not null)
                 Console.Write("INNER EX: " + ex.InnerException);
 
-            return Task.FromResult<Result<CreateWeatherOutputDto>>(GeneralError.InternalServerError);
+            return Task.FromResult<Result<CreateWeatherOutputDto>>(GeneralError.InternalServerCode);
         }
     }
 
@@ -73,7 +73,7 @@ public class WeatherRepository(WeatherTemplateDbContext context) : IWeatherRepos
             if (ex.InnerException is not null)
                 Console.Write("INNER EX: " + ex.InnerException);
 
-            return Task.FromResult<Result<GetWeatherOutputDto>>(GeneralError.InternalServerError);
+            return Task.FromResult<Result<GetWeatherOutputDto>>(GeneralError.InternalServerCode);
         }
     }
 }
