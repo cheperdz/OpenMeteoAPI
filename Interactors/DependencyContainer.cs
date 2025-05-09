@@ -1,6 +1,5 @@
-﻿using Interactors.Template;
-using Microsoft.Extensions.DependencyInjection;
-using Ports.Template.Input;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Ports.Input;
 
 namespace Interactors;
 
@@ -8,8 +7,8 @@ public static class DependencyContainer
 {
     public static IServiceCollection AddUseCaseInteractors(this IServiceCollection services)
     {
-        services.AddScoped<ICreateWeatherInputPort, CreateWeatherInteractor>();
-        services.AddScoped<IGetWeatherInputPort, GetWeatherInteractor>();
+        services.AddScoped<IGetWeatherByLocationInputPort, GetWeatherByLocationInteractor>();
+        services.AddScoped<IGetWeatherByCityInputPort, GetWeatherByCityInteractor>();
 
         return services;
     }
