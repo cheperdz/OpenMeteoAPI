@@ -17,7 +17,11 @@ public class GetWeatherByLocationInteractor(IWeatherRepository weatherRepository
 
         catch (Exception ex)
         {
-            Console.WriteLine("Excepción en CreateBloqueTimespanInteractor: " + ex.Message);
+            Console.WriteLine("Excepción no controlada en el interactor GetWeatherByLocation: " + ex.Message); // TODO: Pasar a SeriLog
+
+            if(ex.InnerException != null)
+                Console.WriteLine("Inner Ex: " + ex.InnerException);
+
             throw;
         }
     }
