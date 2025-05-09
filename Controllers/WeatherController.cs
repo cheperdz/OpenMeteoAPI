@@ -14,14 +14,21 @@ public class WeatherController
     IGetWeatherByLocationInputPort getWeatherByLocationInputPort,
     IGetWeatherByLocationOutputPort getWeatherByLocationOutputPort,
 
-    IGetWeatherByCityInputPort createWeatherByCityInputPort,
-    IGetWeatherByCityOutputPort createWeatherByCityOutputPort
+    IGetWeatherByCityInputPort getWeatherByCityInputPort,
+    IGetWeatherByCityOutputPort getWeatherByCityOutputPort
 )
 {
-    [HttpGet("getWeather")]
-    public async Task<Result<GetWeatherByLocationOutputDto>> GetWeather([FromQuery] GetWeatherByLocationInputDto input)
+    [HttpGet("getWeatherByLocation")]
+    public async Task<Result<GetWeatherByLocationOutputDto>> GetWeatherByLocation([FromQuery] GetWeatherByLocationInputDto input)
     {
         await getWeatherByLocationInputPort.Handle(input);
         return ((IPresenter<Result<GetWeatherByLocationOutputDto>>)getWeatherByLocationOutputPort).Content;
+    }
+
+    [HttpGet("getWeatherByCity")]
+    public async Task<Result<GetWeatherByCityOutputDto>> GetWeatherByCity([FromQuery] GetWeatherByCityInputDto input)
+    {
+        await getWeatherByCityInputPort.Handle(input);
+        return ((IPresenter<Result<GetWeatherByCityOutputDto>>)getWeatherByCityOutputPort).Content;
     }
 }
