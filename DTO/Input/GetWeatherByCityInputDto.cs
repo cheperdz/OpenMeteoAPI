@@ -2,6 +2,5 @@
 
 public class GetWeatherByCityInputDto
 {
-    public double Latitude { get; init; }
-    public double Longitude { get; init; }
+    public string City { get; init; } = "";
 }
