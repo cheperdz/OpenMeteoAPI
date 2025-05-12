@@ -51,5 +51,5 @@ public class WeatherRepository(WeatherDbContext context, IOpenMeteoService openM
         return response;
     }
 
-    public Task<Result<GetWeatherByCityOutputDto>> GetWeatherByCity(GetWeatherByCityInputDto input) => null;
+    public Task<Result<GetWeatherByCityOutputDto>> GetWeatherByCity(GetWeatherByCityInputDto input) => throw new NotImplementedException();
 }
