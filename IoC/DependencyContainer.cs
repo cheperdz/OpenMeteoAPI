@@ -11,9 +11,9 @@ namespace IoC;
 
 public static class DependencyContainer
 {
-    public static IServiceCollection AddProjectDependencies(this IServiceCollection services)
+    public static IServiceCollection AddProjectDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddRepositories();
+        services.AddRepositories(configuration);
         services.AddUseCaseInteractors();
         services.AddPresenters();
         services.AddExternalServices();

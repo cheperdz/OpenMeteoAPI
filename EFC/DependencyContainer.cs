@@ -3,18 +3,21 @@ using EFC.Repositories;
 using EFC.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 
 namespace EFC;
 
 public static class DependencyContainer
 {
-    private const string MongoDbConnectionString = "mongodb://localhost:27017";
-    private const string DatabaseName = "WeatherTemplateDb";
-
-    public static IServiceCollection AddRepositories(this IServiceCollection services )
+    public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<WeatherDbContext>(options => options.UseMongoDB(new MongoClient(MongoDbConnectionString), DatabaseName));
+        // Obtener la cadena de conexión y el nombre de la base de datos desde appsettings
+        var connectionString = configuration.GetConnectionString("MongoDB");
+        var databaseName = configuration.GetValue<string>("MongoDbConfiguration:DatabaseName");
+
+        services.AddDbContext<WeatherDbContext>(options =>
+            options.UseMongoDB(new MongoClient(connectionString), databaseName));
 
         services.AddScoped<IWeatherRepository, WeatherRepository>();
 

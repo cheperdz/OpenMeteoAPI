@@ -27,7 +27,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // IoC Project DI
-builder.Services.AddProjectDependencies();
+builder.Services.AddProjectDependencies(builder.Configuration);
 
 // CORS configuration
 builder.Services.AddCors
