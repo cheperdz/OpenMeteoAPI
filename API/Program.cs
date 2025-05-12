@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddProjectDependencies(builder.Configuration);
+builder.Services.AddProjectDependencies();
 
 builder.Services.AddCors
 (

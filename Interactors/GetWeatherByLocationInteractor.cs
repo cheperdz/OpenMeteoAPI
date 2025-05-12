@@ -1,11 +1,12 @@
 ﻿using DTO.Input;
 using EFC.Repositories.Interfaces;
+using Services.Interfaces;
 using Ports.Input;
 using Ports.Output;
 
 namespace Interactors;
 
-public class GetWeatherByLocationInteractor(IWeatherRepository weatherRepository, IGetWeatherByLocationOutputPort getWeatherByLocationOutputPort) : IGetWeatherByLocationInputPort
+public class GetWeatherByLocationInteractor(IWeatherRepository weatherRepository, IOpenMeteoService openMeteoService, IGetWeatherByLocationOutputPort getWeatherByLocationOutputPort) : IGetWeatherByLocationInputPort
 {
     public async Task Handle(GetWeatherByLocationInputDto input)
     {
