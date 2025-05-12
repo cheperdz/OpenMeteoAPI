@@ -19,7 +19,7 @@ public class Weather
     public DateTime Sunrise { get; set; }
 
     [BsonElement("created_at")]
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 }
 
 public class OpenMeteoResponse

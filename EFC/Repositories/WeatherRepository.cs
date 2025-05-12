@@ -12,8 +12,8 @@ public class WeatherRepository(WeatherDbContext context, IOpenMeteoService openM
     {
         var response = new GetWeatherByLocationOutputDto();
 
-        var dbWeather = context.Weathers.FirstOrDefault(w => w.Longitude == input.Longitude && w.Latitude == input.Latitude && w.CreatedAt.Day == DateTime.Today.Day);
-
+        // First we fetch from MongoDb
+        var dbWeather = context.Weathers.FirstOrDefault(w => w.Longitude == input.Longitude && w.Latitude == input.Latitude && w.CreatedAt.Day == DateTime.UtcNow.Day);
         if (dbWeather != null)
             response = new GetWeatherByLocationOutputDto()
             {
@@ -23,6 +23,7 @@ public class WeatherRepository(WeatherDbContext context, IOpenMeteoService openM
                 SunriseDateTimeIso8601 = dbWeather.Sunrise,
             };
 
+        // If there is no register on the same Longitude and Latitude within the last day, we use the API
         else
         {
             var weather = await openMeteoService.GetWeatherDataAsync(input.Latitude, input.Longitude);
@@ -43,5 +44,5 @@ public class WeatherRepository(WeatherDbContext context, IOpenMeteoService openM
         return response;
     }
 
-    public Task<Result<GetWeatherByCityOutputDto>> GetWeatherByCity(GetWeatherByCityInputDto input) => throw new NotImplementedException();
+    public Task<Result<GetWeatherByCityOutputDto>> GetWeatherByCity(GetWeatherByCityInputDto input) => null;
 }
