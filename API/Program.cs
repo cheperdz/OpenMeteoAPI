@@ -1,18 +1,23 @@
 using IoC;
 using Microsoft.OpenApi.Models;
 
+#region Builder Configuration
 var builder = WebApplication.CreateBuilder(args);
 
+// Controller Project DI
 builder.Services.AddControllers();
 
+// Swagger DI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Template API",
-        Description = "Template API using Clean Architecture with a SQLite .db file as Database, template is dockerized on the API section, programmed by irony",
+        Title = "Weather API",
+        Description = "Weather API using Clean Architecture with a MongoDb as provider, " +
+                      "make sure to install MongoDB Compass and connect to localhost, " +
+                      "template is dockerized on the API section, programmed by José Mario Herrera Ricárdez",
         License = new OpenApiLicense
         {
             Name = "MIT License",
@@ -21,8 +26,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// IoC Project DI
 builder.Services.AddProjectDependencies();
 
+// CORS configuration
 builder.Services.AddCors
 (
     options => options.AddDefaultPolicy
@@ -34,19 +41,23 @@ builder.Services.AddCors
                 .AllowAnyHeader()
     )
 );
+#endregion
 
+#region App Configuration
 var app = builder.Build();
 
-app.Use(async (context, next) => // Middleware de registro de solicitudes
+// Middleware for request registry
+app.Use(async (context, next) =>
 {
     Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
     await next.Invoke();
 });
 
+// Swagger Implementation
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Template API - Clean Architecture");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Weather API - Clean Architecture");
     c.RoutePrefix = string.Empty; // Hacer que Swagger UI sea la página principal
 });
 
@@ -55,3 +66,4 @@ app.UseCors();
 app.MapControllers();
 
 app.Run();
+#endregion

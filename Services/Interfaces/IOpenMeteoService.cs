@@ -5,5 +5,5 @@ namespace Services.Interfaces;
 public interface IOpenMeteoService
 {
     Task<Weather> GetWeatherDataAsync(double latitude, double longitude);
-    Task<(double Latitude, double Longitude)> GetCoordinatesFromCityAsync(string city, string countryCode);
+    Task<(double Latitude, double Longitude)> GetCoordinatesFromCityAsync(string city);
 }

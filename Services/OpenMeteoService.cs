@@ -26,21 +26,5 @@ public class OpenMeteoService(HttpClient httpClient, IMapper mapper) : IOpenMete
         return weather!;
     }
 
-    public async Task<(double Latitude, double Longitude)> GetCoordinatesFromCityAsync(string city, string countryCode)
-    {
-        var url = $"https://nominatim.openstreetmap.org/search?city={Uri.EscapeDataString(city)}&country={Uri.EscapeDataString(countryCode)}&format=json&limit=1";
-
-        httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "WeatherApp/1.0");
-
-        var response = await httpClient.GetAsync(url);
-        response.EnsureSuccessStatusCode();
-
-        var json = await response.Content.ReadAsStringAsync();
-        var results = JsonSerializer.Deserialize<List<dynamic>>(json, _jsonOptions);
-
-        if (results?.Count > 0)
-            return (double.Parse(results[0].Lat), double.Parse(results[0].Lon));
-
-        throw new Exception($"City {city}, {countryCode} not found");
-    }
+    public async Task<(double Latitude, double Longitude)> GetCoordinatesFromCityAsync(string city) => throw new NotImplementedException();
 }

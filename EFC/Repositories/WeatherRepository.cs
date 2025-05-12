@@ -3,6 +3,7 @@ using DTO.Output;
 using EFC.Context;
 using EFC.Repositories.Interfaces;
 using Patterns.Result;
+using Patterns.Result.Errors;
 using Services.Interfaces;
 namespace EFC.Repositories;
 
@@ -12,6 +13,12 @@ public class WeatherRepository(WeatherDbContext context, IOpenMeteoService openM
     {
         var response = new GetWeatherByLocationOutputDto();
 
+        if (input.Latitude is > 90 or < -90)
+            return GetWeatherByLocationErrors.BadRequestLatitude;
+
+        if (input.Longitude is > 180 or < -180)
+            return GetWeatherByLocationErrors.BadRequestLongitude;
+
         // First we fetch from MongoDb
         var dbWeather = context.Weathers.FirstOrDefault(w => w.Longitude == input.Longitude && w.Latitude == input.Latitude && w.CreatedAt.Day == DateTime.UtcNow.Day);
         if (dbWeather != null)
@@ -19,7 +26,7 @@ public class WeatherRepository(WeatherDbContext context, IOpenMeteoService openM
             {
                 Temperature = dbWeather.Temperature,
                 WindDirection = dbWeather.WindDirection,
-                WindSpeed = dbWeather.WindDirection,
+                WindSpeed = dbWeather.WindSpeed,
                 SunriseDateTimeIso8601 = dbWeather.Sunrise,
             };
 
@@ -35,7 +42,7 @@ public class WeatherRepository(WeatherDbContext context, IOpenMeteoService openM
             {
                 Temperature = weather.Temperature,
                 WindDirection = weather.WindDirection,
-                WindSpeed = weather.WindDirection,
+                WindSpeed = weather.WindSpeed,
                 SunriseDateTimeIso8601 = weather.Sunrise,
             };
 
